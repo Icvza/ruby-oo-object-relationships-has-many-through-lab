@@ -1,3 +1,4 @@
+require'pry'
 class Patient
     @@all = []
 
@@ -9,6 +10,7 @@ class Patient
         @doctor= doctor
         @appointment = appointment
         save
+        @appointments = []
     end
 
     def save
@@ -20,12 +22,34 @@ class Patient
     end
 
     def new_appointment(date, doctor)
-        Appointment.new(date, doctor, self)
+
+        Appointment.new(date, self, doctor)
+    #     appointment = self
+    #    Appointment.new(date, self, doctor)
+    # binding.pry
     end
 
-    def doctors
-        Appointments.all.collect {|appointment| appointment.doctor}
+    def appointments 
+        Appointment.all.select {|appointment| appointment.patient == self}
     end
+    # doctor_who = Doctor.new('The Doctor')
+    #   hevydevy = Patient.new('Devin Townsend')
+    #   appointment = hevydevy.new_appointment('Friday, January 32nd', doctor_who)
+
+    #   expect(hevydevy.appointments).to include(appointment)
+    #   expect(appointment.patient).to eq(hevydevy)
+
+    # def doctors
+    #     Appointment.all.collect {|appointment| appointment.doctor}
+    # end
+
+    def doctors
+         Appointment.all.collect do |appointment|
+           appointment.doctor
+         end
+     end
+
+    
 
 
 
